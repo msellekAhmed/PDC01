@@ -5,7 +5,7 @@
  
 using namespace std;
 
-int openFile(string filename){
+int Parser::openFile(string filename){
         ifstream fichier(filename, ios::in);  // on ouvre le fichier en lecture
  
         if(fichier)  // si l'ouverture a réussi
