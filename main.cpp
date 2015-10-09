@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include <iostream>
+#include "parser.h"
 
 int main( int argc, const char* argv[] )
 {
-	printf( "\nHello World\n\n" );
+	std::cout << "Hello World";
 }
