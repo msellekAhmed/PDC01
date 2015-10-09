@@ -5,24 +5,8 @@
  
 using namespace std;
 
-int main( int argc, const char* argv[] )
-{
-        DIR *rep;
- 
-        rep = opendir("Fichiers");
-        struct dirent *lecture;
- 
-        while ((lecture = readdir(rep))) {
-                printf("%s\n", lecture->d_name);
-                // ton traitement
-        }
-        return 0;
-}
-
-
-
-int openfile(){
-        ifstream fichier("latimes/la010189", ios::in);  // on ouvre le fichier en lecture
+int openFile(string filename){
+        ifstream fichier(filename, ios::in);  // on ouvre le fichier en lecture
  
         if(fichier)  // si l'ouverture a réussi
         {       
