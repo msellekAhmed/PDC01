@@ -1,2 +1,2 @@
 all: 
-	g++ main.cpp -o mainApp
+	g++ main.cpp parser.cpp -o mainApp
