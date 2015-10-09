@@ -7,8 +7,9 @@
 using namespace std;
 
 int Parser::openFile(string filename) {
-    char ch;
-    int i;
+    string ch;
+    string doc;
+    int add;
     ifstream fichier(filename, ios::in); // on ouvre le fichier en lecture
 
     if (fichier) // si l'ouverture a réussi
@@ -16,19 +17,17 @@ int Parser::openFile(string filename) {
         string ligne;
         while (getline(fichier, ligne)) // tant que l'on peut mettre la ligne dans "contenu"
         {
-            /*ch = fgetc(*fichier);
-            if (ch == EOF)
-                break;
-
-            if (ch == '<') {
-                i = 0;
-                continue;
-            } else if (!i && ch == '>') {
-                i = 1;
-                continue;
+            ch = ligne.substr(0,1);
+            doc = ligne.substr(0,7);
+            //std::cout << doc << std::endl;
+            if (ch == "<" and doc!="<DOCID>") {
+                add = 0;
+            } 
+            else {
+                add = 1;
             }
 
-            if (i)*/ v.push_back(ligne);
+            if (add==1){ v.push_back(ligne);}
         }
         fichier.close(); // on ferme le fichier
         for (int i = 0; i != v.size(); i++)
