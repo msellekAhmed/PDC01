@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <dirent.h>
+#include<string>
 #include "parser.h"
  
 using namespace std;
@@ -10,13 +11,12 @@ int main( int argc, const char* argv[] )
 {
     Parser parser;
         DIR *rep;
- 
-        rep = opendir("Fichiers");
+        string dossier="Fichiers";
+        rep = opendir(dossier.c_str());
         struct dirent *lecture;
  
         while ((lecture = readdir(rep))) {
-                printf("%s\n", lecture->d_name);
-                parser.openFile(lecture->d_name);
+                parser.openFile(dossier+"/"+lecture->d_name);
         }
         return 0;
 }
