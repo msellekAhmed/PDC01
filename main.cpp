@@ -17,6 +17,7 @@ int main( int argc, const char* argv[] )
  
         while ((lecture = readdir(rep))) {
                 parser.openFile(dossier+"/"+lecture->d_name);
+                //parser.getNextToken();
         }
         return 0;
 }
