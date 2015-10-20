@@ -3,8 +3,14 @@
 #include <iostream>
 #include <dirent.h>
 #include "parser.h"
+#include<boost/tokenizer.hpp>
 
 using namespace std;
+
+Parser::Parser() : tokenizer(string()){
+	tokIterator = tokenizer.begin();
+	docsIt = docs.begin();
+}
 
 int Parser::openFile(string filename) {
     string ch;
@@ -17,18 +23,23 @@ int Parser::openFile(string filename) {
     {
         // on vide le vecteur de docs à chaque fichier 
         docs.clear();
-        
+        Doc newDocStruct{-1, ""};
         string ligne;
         while (getline(fichier, ligne)) 
         {
             ch = ligne.substr(0,1);
             doc = ligne.substr(0,7);
-            
             if (doc=="<DOCID>"){
-                // créer une nouvelle structure doc
-                // ajouter le doc dans docs
+				// ajouter le doc dans docs
                 // remplir doc.docid dans la struct du doc
-                // doc.text=null
+				// créer une nouvelle structure doc
+				
+				
+				if(newDocStruct.docId != -1){
+					//we were reading a previous doc, save it 
+					docs.push_back(newDocStruct);  // make a copy of it, we can reuse this variable now
+				}
+				newDocStruct = {1, ""};  // TODO get docId from text
                 add=0;
             }
             else if (ch == "<") {
@@ -39,23 +50,54 @@ int Parser::openFile(string filename) {
             }
 
             if (add==1){
-                //Doc.text=text+ligne
+				newDocStruct.text += ligne;
             }
         }
-     
         fichier.close(); // on ferme le fichier
+		
+		if(!docs.empty()){
+			docsIt = docs.begin();
+			tokenizer = boost::tokenizer<>((*docsIt).text);
+			tokIterator = tokenizer.begin();
+		}else{
+			// the file is not correct
+			return 2;
+		}
+		
         //lecture du vecteur
         /*for (int i = 0; i != v.size(); i++)
         {
             std::cout << v[i] << std::endl;
         }*/
-        return 1;
+        return 0;
     } else {
         //cerr << "Impossible d'ouvrir le fichier !" << endl;
-        return 0;
+        return 1;
     }
 }
 
-/*Parser::Token Parser::getNextToken(){
-    
-}*/
+Parser::Token Parser::getNextToken(){
+    if(docs.empty()) {
+		throw -1;
+	}
+	
+	Parser::Token tok;
+	if(tokIterator != tokenizer.end()){
+		tok.word = *tokIterator;
+		++tokIterator;
+	}else{
+		//the current doc is fully read
+		if(docsIt != docs.end()){
+			//there is still docs to read, go to next one and parse its text
+			tokenizer = boost::tokenizer<>((*(++docsIt)).text);
+			tokIterator= tokenizer.begin();
+			tok.word = *tokIterator;
+			++tokIterator;
+		}else{
+			//the file is fully read
+			return Parser::Token{-1, ""};
+		}
+	}
+	tok.docId = (*docsIt).docId;
+	return tok;
+}
