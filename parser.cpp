@@ -42,7 +42,7 @@ int Parser::openFile(string filename) {
                 //Doc.text=text+ligne
             }
         }
-     }
+     
         fichier.close(); // on ferme le fichier
         //lecture du vecteur
         /*for (int i = 0; i != v.size(); i++)

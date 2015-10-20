@@ -16,11 +16,11 @@ class Parser{
                 std::vector<std::string>v;
                 Token getNextToken();
 		int openFile(std::string filename);
-                struct Doc {
+        struct Doc {
 			int docId;
 			std::string text;
 		};
-                std::vector<std::Doc>docs;
+                std::vector<Doc>docs;
 };
 
 #endif 
