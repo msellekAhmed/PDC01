@@ -23,9 +23,11 @@ int main( int argc, const char* argv[] )
 	}
 	cout << "press enter" <<endl;
 	getchar();
-	
+        
 	while ((lecture = readdir(rep))) {
-			if(parser.openFile(dossier+"/"+lecture->d_name) == 0){
+            int codeErreur =parser.openFile(dossier+"/"+lecture->d_name);
+            if(strcmp(lecture->d_name,".")!=0 and strcmp(lecture->d_name,"..")!=0){
+			if(codeErreur == 0){
 				// file successfully read
 				for(int i = 0 ; i < 20 ; ++i){
 					try
@@ -39,7 +41,10 @@ int main( int argc, const char* argv[] )
 					}	
 					
 				}
-			}
+			} else {
+                            cerr<<codeErreur;
+                        }
+        }
 	}
 	cout << "press enter" <<endl;
 	getchar();

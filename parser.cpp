@@ -63,15 +63,9 @@ int Parser::openFile(string filename) {
 			// the file is not correct
 			return 2;
 		}
-		
-        //lecture du vecteur
-        /*for (int i = 0; i != v.size(); i++)
-        {
-            std::cout << v[i] << std::endl;
-        }*/
+        
         return 0;
     } else {
-        //cerr << "Impossible d'ouvrir le fichier !" << endl;
         return 1;
     }
 }
