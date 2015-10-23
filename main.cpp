@@ -15,15 +15,6 @@ int main( int argc, const char* argv[] )
 	string dossier="Fichiers";
 	rep = opendir(dossier.c_str());
 	struct dirent *lecture;
-	string s = "This is,  a test";
-	boost::tokenizer<> tok(s);
-	cout << "test tokenization" <<endl;
-	for(boost::tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg){
-	   cout << *beg << "\n";
-	}
-	cout << "press enter" <<endl;
-	getchar();
-        
 	while ((lecture = readdir(rep))) {
             int codeErreur =parser.openFile(dossier+"/"+lecture->d_name);
             if(strcmp(lecture->d_name,".")!=0 and strcmp(lecture->d_name,"..")!=0){

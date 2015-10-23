@@ -39,7 +39,7 @@ int Parser::openFile(string filename) {
 					//we were reading a previous doc, save it 
 					docs.push_back(newDocStruct);  // make a copy of it, we can reuse this variable now
 				}
-				newDocStruct = {1, ""};  // TODO get docId from text
+				newDocStruct = {std::stoi(ligne.substr(7, ligne.length() - 15)), ""};  // TODO get docId from text
                 add=0;
             }
             else if (ch == "<") {
