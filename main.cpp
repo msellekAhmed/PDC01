@@ -16,25 +16,28 @@ int main( int argc, const char* argv[] )
 	rep = opendir(dossier.c_str());
 	struct dirent *lecture;
 	while ((lecture = readdir(rep))) {
+			int previousDocId = -1;
             int codeErreur =parser.openFile(dossier+"/"+lecture->d_name);
             if(strcmp(lecture->d_name,".")!=0 and strcmp(lecture->d_name,"..")!=0){
 			if(codeErreur == 0){
 				// file successfully read
-				for(int i = 0 ; i < 20 ; ++i){
-					try
-					{
-						Parser::Token tok = parser.getNextToken();
-						cout << "token : docId " << tok.docId << " - word " << tok.word << endl;
-					}
-					catch (int e)
-					{
-						cout << "Error reading a token from parser. Error num " << e << endl;
-					}	
+				
+				Parser::Token tok = parser.getNextToken();
+				while(tok.docId != -1)
+				{
 					
+					if(previousDocId != tok.docId){
+						//pause when we begin a new doc, only for debug
+						cout << "press enter to continue" <<endl;
+						getchar();
+					}
+					previousDocId = tok.docId;
+					cout << "token : docId " << tok.docId << " - word " << tok.word << endl;
+					tok = parser.getNextToken();
 				}
 			} else {
-                            cerr<<codeErreur;
-                        }
+				cerr<<codeErreur;
+			}
         }
 	}
 	cout << "press enter" <<endl;
